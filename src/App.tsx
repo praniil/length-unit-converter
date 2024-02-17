@@ -44,40 +44,24 @@ function App() {
     setInitialInfo({
       ...initialInfo,
       [name]: value
-    }
-    )
-    console.log(initialInfo.number)
-    console.log(typeof (initialInfo.number))
-    console.log(initialInfo.firstUnit)
+    });
+    handleConvertClick();
   }
 
-  function convertToCM(): number {
-    console.log("in convert to cm")
-    console.log(initialInfo.firstUnit)
-    switch (initialInfo.firstUnit) {
+  function convertToCM(num: number, fUnit: string): number {
+    switch (fUnit) {
       case "INCH":
-        console.log("in inch")
-        setInitialInfo(prevInfo => ({
-          ...prevInfo,
-          number: initialInfo.number * 2.54
-        }))
-        console.log(initialInfo.number)
+        num = num * 2.54
         break
     }
-    console.log("should be 2.25", initialInfo.number)
-    return initialInfo.number
+    return num
   }
-
 
   function handleConvertClick() {
-
-    const ansInCM: number = convertToCM()
-    console.log(ansInCM)
+    const ansInCM: number = convertToCM(initialInfo.number, initialInfo.firstUnit)
+    const convert = new Converter(ansInCM)
+    setAnswer(convert.convertToInch())
   }
-  
-  useEffect(() => {
-    handleConvertClick()
-  }, [])
 
   return (
     <>
