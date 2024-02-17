@@ -18,6 +18,22 @@ class Converter {
   convertToMeter(): number {
     return this.length * 0.01
   }
+
+  convertToKilometer(): number {
+    return this.length * 0.00001
+  }
+
+  convertToCentimeter(): number {
+    return this.length
+  }
+
+  convertToFoot(): number {
+    return this.length * 0.0328084
+  }
+
+  convertToYard(): number {
+    return this.length * 0.01093613
+  }
 }
 
 const lengthUnit: string[] = [
@@ -25,7 +41,7 @@ const lengthUnit: string[] = [
   "METER",
   "KILOMETER",
   "CENTIMETER",
-  "FOOT",
+  "FEET",
   "YARD",
 ]
 
@@ -60,7 +76,18 @@ function App() {
       case "METER":
         num = num * 100
         break
-
+      case "KILOMETER":
+        num = num * 100000
+        break
+      case "CENTIMETER":
+        num = num
+        break
+      case "FEET":
+        num = num / 0.0328084
+        break
+      case "YARD":
+        num = num / 0.01093613
+        break
     }
     return num
   }
@@ -74,10 +101,24 @@ function App() {
         break
       case "METER":
         setAnswer(convert.convertToMeter())
+        break
+      case "KILOMETER":
+        setAnswer(convert.convertToKilometer())
+        break
+      case "CENTIMETER":
+        setAnswer(convert.convertToCentimeter())
+        break
+      case "FEET":
+        setAnswer(convert.convertToFoot())
+        break
+      case "YARD":
+        setAnswer(convert.convertToYard())
+        break
     }
   }
 
   function handleChangeSecondList(event: any) {
+    console.log(event.target.value)
     setSecondList(event.target.value)
   }
 
@@ -104,7 +145,7 @@ function App() {
         {answer !== null && (
           <div className="mt-4">
             <span className="text-lg font-semibold">Result:</span>
-            <span className="text-xl ml-2">{answer}</span>
+            <span className="text-xl ml-2"><span>{answer}</span>&nbsp;<span>{secondList.toLowerCase()}s</span></span>
           </div>
         )}
       </div>
