@@ -12,7 +12,7 @@ class Converter {
     // if (this.length == null) {
     //   return 0
     // }
-    return this.length * 0.393701
+    return this.length * (25 / 64)
   }
 
   convertToMeter(): number {
@@ -34,6 +34,38 @@ class Converter {
   convertToYard(): number {
     return this.length * 0.01093613
   }
+
+  convertToDecameter(): number {
+    return this.length * 0.001
+  }
+
+  convertToMillimeter(): number {
+    return this.length * 10
+  }
+
+  convertToDecimeter(): number {
+    return this.length * 0.1
+  }
+
+  convertToMicrometer(): number {
+    return this.length * 10000
+  }
+
+  convertToNanometer(): number {
+    return this.length * 10000000
+  }
+
+  convertToPicometer(): number {
+    return this.length * 10000000000
+  }
+
+  convertToHectormeter(): number {
+    return this.length * 0.0001
+  }
+
+  convertToChains(): number {
+    return this.length * 0.000497097
+  }
 }
 
 const lengthUnit: string[] = [
@@ -43,6 +75,14 @@ const lengthUnit: string[] = [
   "CENTIMETER",
   "FEET",
   "YARD",
+  "DECAMETER",
+  "MILLIMETER",
+  "DECIMETER",
+  "MICROMETER",
+  "NANOMETER",
+  "PICOMETER",
+  "HECTOMETER",
+  "CHAINS"
 ]
 
 function App() {
@@ -59,8 +99,10 @@ function App() {
   )
   const [answer, setAnswer] = useState<number | null>(null)
   const [secondList, setSecondList] = useState<string>("INCH")
-
+  const [convertClicked, setConvertClicked] = useState<boolean>(false)
   function handleChangeInitialInfo(event: any) {
+    setConvertClicked(false)
+    setAnswer(null)
     const { name, value } = event.target
     setInitialInfo({
       ...initialInfo,
@@ -71,13 +113,13 @@ function App() {
   function convertToCM(num: number, fUnit: string): number {
     switch (fUnit) {
       case "INCH":
-        num = num * 2.54
+        num = num * 1 / (25 / 64)
         break
       case "METER":
         num = num * 100
         break
       case "KILOMETER":
-        num = num * 100000
+        num = num * (1 / 0.00001)
         break
       case "CENTIMETER":
         num = num
@@ -88,11 +130,36 @@ function App() {
       case "YARD":
         num = num / 0.01093613
         break
+      case "DECAMETER":
+        num = num * 1000
+        break
+      case "MILLIMETER":
+        num = num * 0.1
+        break
+      case "DECIMETER":
+        num = num * 10
+        break
+      case "MICROMETER":
+        num = num * 0.0001
+        break
+      case "NANOMETER":
+        num = num * (1 / 10000000)
+        break
+      case "PICOMETER":
+        num = num * 0.0000000001
+        break
+      case "HECTOMETER":
+        num = num * 10000
+        break
+      case "CHAINS":
+        num = num * (1 / 0.000497097)
+        break
     }
     return num
   }
 
   function handleConvertClick() {
+    setConvertClicked(true)
     const ansInCM: number = convertToCM(initialInfo.number, initialInfo.firstUnit)
     const convert = new Converter(ansInCM)
     switch (secondList) {
@@ -114,10 +181,36 @@ function App() {
       case "YARD":
         setAnswer(convert.convertToYard())
         break
+      case "DECAMETER":
+        setAnswer(convert.convertToDecameter())
+        break
+      case "MILLIMETER":
+        setAnswer(convert.convertToMillimeter())
+        break
+      case "DECIMETER":
+        setAnswer(convert.convertToDecimeter())
+        break
+      case "MICROMETER":
+        setAnswer(convert.convertToMicrometer())
+        break
+      case "NANOMETER":
+        setAnswer(convert.convertToNanometer())
+        break
+      case "PICOMETER":
+        setAnswer(convert.convertToPicometer())
+        break
+      case "HECTOMETER":
+        setAnswer(convert.convertToHectormeter())
+        break
+      case "CHAINS":
+        setAnswer(convert.convertToChains())
+        break
     }
   }
 
   function handleChangeSecondList(event: any) {
+    setConvertClicked(false)
+    setAnswer(null)
     console.log(event.target.value)
     setSecondList(event.target.value)
   }
@@ -145,7 +238,7 @@ function App() {
         {answer !== null && (
           <div className="mt-4">
             <span className="text-lg font-semibold">Result:</span>
-            <span className="text-xl ml-2"><span>{answer}</span>&nbsp;<span>{secondList.toLowerCase()}s</span></span>
+            <span className="text-xl ml-2"><span>{answer}</span>&nbsp;{convertClicked ? <span>{secondList.toLowerCase()}s</span> : <span></span>}</span>
           </div>
         )}
       </div>
