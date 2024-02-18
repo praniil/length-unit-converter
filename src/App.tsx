@@ -119,7 +119,7 @@ function App() {
         num = num * 100
         break
       case "KILOMETER":
-        num = num * (1 / 0.00001)
+        num = num * 100000
         break
       case "CENTIMETER":
         num = num
@@ -143,7 +143,7 @@ function App() {
         num = num * 0.0001
         break
       case "NANOMETER":
-        num = num * (1 / 10000000)
+        num = num * 0.0000001
         break
       case "PICOMETER":
         num = num * 0.0000000001
@@ -214,36 +214,78 @@ function App() {
     console.log(event.target.value)
     setSecondList(event.target.value)
   }
-
   return (
-    <>
-      <div className="flex flex-col items-center justify-center mt-8">
+    <div className="dark bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center">
         <div className="flex items-center">
-          <input type='text' name="number" onChange={handleChangeInitialInfo} placeholder='Enter the number' className="border-2 border-gray-300 rounded-md px-4 py-2 mr-4" />
-          <select name="firstUnit" id="firstUnit" value={initialInfo.firstUnit} onChange={handleChangeInitialInfo} className="border-2 border-gray-300 rounded-md px-4 py-2 mr-4">
+          <input
+            type='text'
+            name="number"
+            onChange={handleChangeInitialInfo}
+            placeholder='Enter the number'
+            className="dark:bg-gray-800 border-2 border-gray-600 dark:border-gray-500 rounded-md px-4 py-2 mr-4 focus:outline-none focus:border-blue-500 text-white"
+          />
+          <select
+            name="firstUnit"
+            id="firstUnit"
+            value={initialInfo.firstUnit}
+            onChange={handleChangeInitialInfo}
+            className="dark:bg-gray-800 border-2 border-gray-600 dark:border-gray-500 rounded-md px-4 py-2 mr-4 focus:outline-none focus:border-blue-500 text-white"
+          >
             {lengthUnit.map((unit, index) => (
-              <option value={unit} key={index}> {unit} </option>
+              <option
+                key={index}
+                value={unit}
+              >
+                {unit}
+              </option>
             ))}
           </select>
         </div>
         <div className="flex items-center mt-4">
           <span className="mr-2">to</span>
-          <select name="secondList" id="secondList" value={secondList} onChange={handleChangeSecondList} className="border-2 border-gray-300 rounded-md px-4 py-2 mr-4">
+          <select
+            name="secondList"
+            id="secondList"
+            value={secondList}
+            onChange={handleChangeSecondList}
+            className="dark:bg-gray-800 border-2 border-gray-600 dark:border-gray-500 rounded-md px-4 py-2 mr-4 focus:outline-none focus:border-blue-500 text-white"
+          >
             {lengthUnit.map((unit, index) => (
-              <option value={unit} key={index}> {unit} </option>
+              <option
+                key={index}
+                value={unit}
+              >
+                {unit}
+              </option>
             ))}
           </select>
-          <button onClick={handleConvertClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">CONVERT</button>
+          <button
+            onClick={handleConvertClick}
+            className="dark:bg-gray-800 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            CONVERT
+          </button>
         </div>
         {answer !== null && (
           <div className="mt-4">
             <span className="text-lg font-semibold">Result:</span>
-            <span className="text-xl ml-2"><span>{answer}</span>&nbsp;{convertClicked ? <span>{secondList.toLowerCase()}s</span> : <span></span>}</span>
+            <span className="text-xl ml-2">
+              <span>{answer}</span>&nbsp;
+              {convertClicked ? (
+                <span>{secondList.toLowerCase()}s</span>
+              ) : (
+                <span></span>
+              )}
+            </span>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
+  
+
+
 }
 
 export default App;
