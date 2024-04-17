@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Calculator } from './components/calculator';
 
 class Converter {
   length: number
@@ -87,89 +88,89 @@ const lengthUnit: string[] = [
 
 function App() {
   interface initialInfo {
-    number: number;
-    firstUnit: string
-  }
-
-  const [initialInfo, setInitialInfo] = useState<initialInfo>(
-    {
-      number: 0,
-      firstUnit: "INCH"
+      number: number;
+      firstUnit: string
     }
-  )
-  const [answer, setAnswer] = useState<number | null>(null)
-  const [secondList, setSecondList] = useState<string>("INCH")
-  const [convertClicked, setConvertClicked] = useState<boolean>(false)
-  function handleChangeInitialInfo(event: any) {
-    setConvertClicked(false)
-    setAnswer(null)
-    const { name, value } = event.target
-    setInitialInfo({
-      ...initialInfo,
-      [name]: value
-    });
-  }
-
-  function convertToCM(num: number, fUnit: string): number {
-    switch (fUnit) {
-      case "INCH":
-        num = num * 1 / (25 / 64)
-        break
-      case "METER":
-        num = num * 100
-        break
-      case "KILOMETER":
-        num = num * 100000
-        break
-      case "CENTIMETER":
-        num = num
-        break
-      case "FEET":
-        num = num / 0.0328084
-        break
-      case "YARD":
-        num = num / 0.01093613
-        break
-      case "DECAMETER":
-        num = num * 1000
-        break
-      case "MILLIMETER":
-        num = num * 0.1
-        break
-      case "DECIMETER":
-        num = num * 10
-        break
-      case "MICROMETER":
-        num = num * 0.0001
-        break
-      case "NANOMETER":
-        num = num * 0.0000001
-        break
-      case "PICOMETER":
-        num = num * 0.0000000001
-        break
-      case "HECTOMETER":
-        num = num * 10000
-        break
-      case "CHAINS":
-        num = num * (1 / 0.000497097)
-        break
-    }
-    return num
-  }
-
-  function handleConvertClick() {
-    setConvertClicked(true)
-    const ansInCM: number = convertToCM(initialInfo.number, initialInfo.firstUnit)
-    const convert = new Converter(ansInCM)
-    switch (secondList) {
-      case "INCH":
-        setAnswer(convert.convertToInch())
-        break
-      case "METER":
-        setAnswer(convert.convertToMeter())
-        break
-      case "KILOMETER":
+    
+    const [initialInfo, setInitialInfo] = useState<initialInfo>(
+        {
+            number: 0,
+            firstUnit: "INCH"
+          }
+        )
+        const [answer, setAnswer] = useState<number | null>(null)
+        const [secondList, setSecondList] = useState<string>("INCH")
+        const [convertClicked, setConvertClicked] = useState<boolean>(false)
+        function handleChangeInitialInfo(event: any) {
+            setConvertClicked(false)
+            setAnswer(null)
+            const { name, value } = event.target
+            setInitialInfo({
+                ...initialInfo,
+                [name]: value
+              });
+            }
+            
+            function convertToCM(num: number, fUnit: string): number {
+                switch (fUnit) {
+                    case "INCH":
+                      num = num * 1 / (25 / 64)
+                      break
+                    case "METER":
+                      num = num * 100
+                      break
+                    case "KILOMETER":
+                      num = num * 100000
+                      break
+                    case "CENTIMETER":
+                      num = num
+                      break
+                    case "FEET":
+                      num = num / 0.0328084
+                      break
+                    case "YARD":
+                      num = num / 0.01093613
+                      break
+                    case "DECAMETER":
+                      num = num * 1000
+                      break
+                    case "MILLIMETER":
+                      num = num * 0.1
+                      break
+                    case "DECIMETER":
+                      num = num * 10
+                      break
+                    case "MICROMETER":
+                      num = num * 0.0001
+                      break
+                    case "NANOMETER":
+                      num = num * 0.0000001
+                      break
+                    case "PICOMETER":
+                      num = num * 0.0000000001
+                      break
+                    case "HECTOMETER":
+                      num = num * 10000
+                      break
+                    case "CHAINS":
+                      num = num * (1 / 0.000497097)
+                      break
+                  }
+                  return num
+                }
+                
+                function handleConvertClick() {
+                    setConvertClicked(true)
+                    const ansInCM: number = convertToCM(initialInfo.number, initialInfo.firstUnit)
+                    const convert = new Converter(ansInCM)
+                    switch (secondList) {
+                        case "INCH":
+                          setAnswer(convert.convertToInch())
+                          break
+                        case "METER":
+                          setAnswer(convert.convertToMeter())
+                          break
+                        case "KILOMETER":
         setAnswer(convert.convertToKilometer())
         break
       case "CENTIMETER":
@@ -207,18 +208,21 @@ function App() {
         break
     }
   }
-
+  
   function handleChangeSecondList(event: any) {
-    setConvertClicked(false)
-    setAnswer(null)
-    console.log(event.target.value)
-    setSecondList(event.target.value)
-  }
-  return (
-    <div className="dark bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
-      <div className="flex flex-col items-center justify-center">
+      setConvertClicked(false)
+      setAnswer(null)
+      console.log(event.target.value)
+      setSecondList(event.target.value)
+    }
+    return (
+        <div className="dark bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
+        <h1>Calculator</h1>
+        <Calculator/>
+        <h1 className='pb-4'>Converter</h1>
+         <div className="flex flex-col items-center justify-center">
         <div className="flex items-center">
-          <input
+       <input
             type='text'
             name="number"
             onChange={handleChangeInitialInfo}
