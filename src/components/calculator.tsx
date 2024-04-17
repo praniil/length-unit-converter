@@ -10,18 +10,20 @@ const btnValues = [
 
 export const Calculator = () => {
   const [screen, setScreen] = useState<string>("");
-  const [res, setResult] = useState<number>();
+  const [res, setResult] = useState<number>(0);
+  const [prevAns, setPrevAns] = useState<number>(0);
+  let ans : number;
 
   function btnClick(event: string) {
-    if (/[0-9]/.test(event)) {
+    if (/[0-9, .]/.test(event)) {
       setScreen(prevState => prevState + event);
     }
-    else if (["+", "-", "/", "*"].includes(event)) {
+    else if (["+", "-", "/", "*", "%"].includes(event)) {
       setScreen(prevState => prevState + event);
     }
     else if (event === "=") {
       const operands = screen.split(/[+, -, /, *, %, +/-]/);
-      const operators = screen.split(/[0-9]/).filter(item => item.trim() !== '');
+      const operators = screen.split(/[0-9, .]/).filter(item => item.trim() !== '');
       const parsedOperand = operands.map(item => parseFloat(item));
       let result: number = parsedOperand[0];
       for (let i = 0; i < operators.length; i++) {
@@ -40,12 +42,28 @@ export const Calculator = () => {
           case '/':
             result /= A;
             break;
+          case '%':
+            result /= 100; 
+            break;
           default:
             throw new Error('Invalid operator: ' + operator);
         }
       }
+      ans = result
+      setPrevAns(ans)
       setResult(result);
     }
+    else if("Ans".includes(event)) {
+      console.log("clicked ans")
+      setResult(res)
+      setScreen(prevAns.toString())
+    }
+    else if("C".includes(event)) {
+      console.log("C")
+      setResult(0)
+      setScreen("")
+    }
+    console.log(ans);
   }
 
   return (
