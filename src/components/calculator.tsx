@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const btnValues = [
-  ["C", "%", "+/-", "/"],
+  ["C", "%", "<", "/"],
   ["7", "8", "9", "*"],
   ["4", "5", "6", "-"],
   ["1", "2", "3", "+"],
@@ -18,29 +18,33 @@ export const Calculator = () => {
     if (/[0-9, .]/.test(event)) {
       setScreen(prevState => prevState + event);
     }
+
     else if (["+", "-", "/", "*", "%"].includes(event)) {
       setScreen(prevState => prevState + event);
     }
+
     else if (event === "=") {
       const operands = screen.split(/[+, -, /, *, %, +/-]/);
       const operators = screen.split(/[0-9, .]/).filter(item => item.trim() !== '');
+      
       const parsedOperand = operands.map(item => parseFloat(item));
       let result: number = parsedOperand[0];
+
       for (let i = 0; i < operators.length; i++) {
-        const A = parsedOperand[i + 1];
+        const operand = parsedOperand[i + 1];
         const operator = operators[i];
         switch (operator) {
           case '+':
-            result += A;
+            result += operand;
             break;
           case '-':
-            result -= A;
+            result -= operand;
             break;
           case '*':
-            result *= A;
+            result *= operand;
             break;
           case '/':
-            result /= A;
+            result /= operand;
             break;
           case '%':
             result /= 100; 
@@ -49,21 +53,28 @@ export const Calculator = () => {
             throw new Error('Invalid operator: ' + operator);
         }
       }
+
       ans = result
       setPrevAns(ans)
       setResult(result);
     }
-    else if("Ans".includes(event)) {
+
+    else if(event === "Ans") {
       console.log("clicked ans")
       setResult(res)
       setScreen(prevAns.toString())
     }
-    else if("C".includes(event)) {
+
+    else if(event === "C") {
       console.log("C")
       setResult(0)
       setScreen("")
     }
-    console.log(ans);
+
+    else if(event == "<") {
+      setScreen(prevScreen => prevScreen.slice(0, -1))
+      setResult(0)
+    }
   }
 
   return (
