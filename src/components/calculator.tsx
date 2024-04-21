@@ -25,9 +25,14 @@ export const Calculator = () => {
 
     else if (event === "=") {
       const operands = screen.split(/[+, -, /, *, %, +/-]/);
+      const parsedOperand = operands.map(item => parseFloat(item));
+      if (["+", "-", "/", "*", "%"].includes(screen[0])) {
+        // screen = "0" + screen
+        parsedOperand[0] = 0
+      }
+
       const operators = screen.split(/[0-9, .]/).filter(item => item.trim() !== '');
       
-      const parsedOperand = operands.map(item => parseFloat(item));
       let result: number = parsedOperand[0];
 
       for (let i = 0; i < operators.length; i++) {
@@ -38,7 +43,7 @@ export const Calculator = () => {
             result += operand;
             break;
           case '-':
-            result -= operand;
+            result -= operand;                                                                                                                                                                                                  
             break;
           case '*':
             result *= operand;
